@@ -264,7 +264,7 @@ export default class GameScene extends Phaser.Scene {
     paytableText.setInteractive();
     paytableText.on('pointerdown', () => {this.showPaytable()});
 
-    this.currentBetText = this.add.text(centerX+250, centerY-275, `Bet: ${currency.format(this.currentBet)} JFG`, { 
+    this.currentBetText = this.add.text(centerX+250, centerY-275, `Bet: ${currency.format(this.currentBet)}`, { 
       font: '24px Inter-Regular', 
       fill: '#ffffff',
     }).setOrigin(0.5);
@@ -338,16 +338,11 @@ export default class GameScene extends Phaser.Scene {
 			})
 		}
 
-    let balance = this.balance;
-
-    let balanceText = this.balanceText;
-
     if(this.isSpinning) return;
-    if((balance - this.selectedChip) < 0) return;
+    if((this.balance - this.selectedChip) < 0) return;
 
     this.balance -= this.selectedChip;
-    
-    balanceText.setText(`${currency.format(balance)}`);
+    this.balanceText.setText(`${currency.format(this.balance)}`);
 
     this.currentBet += this.selectedChip;
     this.currentBetText.setText(`Bet: ${currency.format(this.currentBet)}`);
