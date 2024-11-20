@@ -49,10 +49,14 @@ export default class HomeScene extends Phaser.Scene {
     loginForm.on('click', (event) => {
       if(event.target.name === "Login")
       {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        
         this.scale.startFullscreen();
         this.loading.setVisible(true);
         payTableOverlay.setVisible(true);
-        this.startGame();
+
+        this.login(username, password);
       }
     });
   }
@@ -62,9 +66,28 @@ export default class HomeScene extends Phaser.Scene {
     this.loading.angle += 2.25; 
   }
 
+  async login(username, password)
+  {
+    await axios.post("https://mini-roulette-api.onrender.com/login", {
+      username: username,
+      password: password
+    }, {
+      headers: {}
+    })
+    .then(response => {
+      if(!response.data.status)
+      {
+        return alert(response.data.message);
+      }
+
+      localStorage.setItem("token", response.data.data.token);
+
+      this.startGame();
+    })
+  }
   async startGame() {
 
-    let token = localStorage.getItem("token") || 0;
+    let token = localStorage.getItem("token");
     
     await axios.post("https://mini-roulette-api.onrender.com/getUser", {}, {
       headers: {
@@ -80,8 +103,7 @@ export default class HomeScene extends Phaser.Scene {
       let user_id = response.data.data.user_id;
       let username = response.data.data.username;
       let balance = response.data.data.balance;
-      this.scene.start('GameScene', { user_id, username, balance_wallet, token});
+      this.scene.start('GameScene', { user_id, username, balance, token});
     })
   }
 }
-
