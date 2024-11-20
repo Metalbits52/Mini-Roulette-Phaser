@@ -163,7 +163,7 @@ export default class GameScene extends Phaser.Scene {
       alpha: 0.5,
     }).setOrigin(0.5);
 
-    this.balanceText = this.add.text(centerX - 590, 1000, `${currency.format(this.balance1)}`, { 
+    this.balanceText = this.add.text(centerX - 790, 1000, `${currency.format(this.balance)}`, { 
       font: '24px Inter-Regular', 
       fill: '#ffffff' 
     }).setOrigin(0, 0.5);
