@@ -25,10 +25,10 @@ export default class GameScene extends Phaser.Scene {
   init(data) {
     this.user_id = data.user_id;
     this.username = data.username;
-    this.balance_wallet = data.balance_wallet;
+    this.balance = data.balance;
     this.token = data.token;
 
-    this.currentSelectedCurrency = "USDE"
+    this.currentSelectedCurrency = "USDE";
   }
 
   preload() {
@@ -163,7 +163,7 @@ export default class GameScene extends Phaser.Scene {
       alpha: 0.5,
     }).setOrigin(0.5);
 
-    this.balanceText = this.add.text(centerX - 590, 1000, `${currency.format(this.balance_wallet1)}`, { 
+    this.balanceText = this.add.text(centerX - 590, 1000, `${currency.format(this.balance1)}`, { 
       font: '24px Inter-Regular', 
       fill: '#ffffff' 
     }).setOrigin(0, 0.5);
@@ -338,14 +338,14 @@ export default class GameScene extends Phaser.Scene {
 			})
 		}
 
-    let balance = this.balance_wallet;
+    let balance = this.balance;
 
     let balanceText = this.balanceText;
 
     if(this.isSpinning) return;
     if((balance - this.selectedChip) < 0) return;
 
-    this.balance_wallet -= this.selectedChip;
+    this.balance -= this.selectedChip;
     
     balanceText.setText(`${currency.format(balance)}`);
 
@@ -409,8 +409,8 @@ export default class GameScene extends Phaser.Scene {
     {
       let totalBet = this.betInfo.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 
-      this.balance_wallet += totalBet;
-      this.balanceTextJFU.setText(`${currency.format(this.balance_wallet)}`);
+      this.balance += totalBet;
+      this.balanceTextJFU.setText(`${currency.format(this.balance)}`);
     }
 
     this.currentBet = 0;
@@ -586,7 +586,7 @@ export default class GameScene extends Phaser.Scene {
             this.betContainer.getAt(17).getAt(1).setVisible(true);
 
           
-          let balance = this.balance_wallet;
+          let balance = this.balance;
           let balanceText = this.balanceText;
 
           const initialBalance = balance;
@@ -603,7 +603,7 @@ export default class GameScene extends Phaser.Scene {
               balance = finalBalance;
               balanceText.setText(`${currency.format(finalBalance)}`);
 
-              this.balance_wallet = balance;
+              this.balance = balance;
             }
           });
         }
