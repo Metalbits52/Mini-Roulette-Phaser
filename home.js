@@ -66,7 +66,7 @@ export default class HomeScene extends Phaser.Scene {
 
     let token = localStorage.getItem("token") || 0;
     
-    await axios.post("https://game-api.j4u.app/getUser", {}, {
+    await axios.post("https://mini-roulette-api.onrender.com/getUser", {}, {
       headers: {
         authorization: `Bearer ${token}`
       }
@@ -84,3 +84,4 @@ export default class HomeScene extends Phaser.Scene {
     })
   }
 }
+
