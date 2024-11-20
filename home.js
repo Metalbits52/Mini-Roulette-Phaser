@@ -79,10 +79,8 @@ export default class HomeScene extends Phaser.Scene {
 
       let user_id = response.data.data.user_id;
       let username = response.data.data.username;
-      let balance_wallet = response.data.data.balance_wallet;
-      let merchant = response.data.data.merchant;
-      this.scene.start('GameScene', { user_id, username, balance_wallet, merchant, token});
+      let balance = response.data.data.balance;
+      this.scene.start('GameScene', { user_id, username, balance_wallet, token});
     })
   }
 }
-
