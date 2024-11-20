@@ -485,7 +485,7 @@ export default class GameScene extends Phaser.Scene {
       }
     });
 
-    var response = await axios.post('https://game-api.j4u.app/mini-roulette/play', {
+    var response = await axios.post('https://mini-roulette-api.onrender.com/mini-roulette/play', {
       currencyType: this.currentSelectedCurrency,
       bets: betObject
     },{
