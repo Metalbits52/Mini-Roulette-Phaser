@@ -8,7 +8,7 @@ let currency = new Intl.NumberFormat('en-US', {
 export default class GameScene extends Phaser.Scene {
   constructor() {
     super({ key: 'GameScene' });
-    this.balanceText
+    this.balanceText = null;
     this.winningPanelContainer = null;
     this.chipSet = [];
     this.selectedChip = 1;
@@ -410,7 +410,7 @@ export default class GameScene extends Phaser.Scene {
       let totalBet = this.betInfo.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 
       this.balance += totalBet;
-      this.balanceTextJFU.setText(`${currency.format(this.balance)}`);
+      this.balanceText.setText(`${currency.format(this.balance)}`);
     }
 
     this.currentBet = 0;
@@ -497,17 +497,6 @@ export default class GameScene extends Phaser.Scene {
     if(!response.data.status)
     {
       alert(response.data.message);
-      // switch(this.merchant)
-      // {
-      //   case 1:
-      //   case "1":
-      //     window.location.href = 'https://j4u.app';
-      //     break;
-      //   case 2:
-      //   case "2":
-      //     window.location.href = 'https://mkinternational.io';
-      //     break
-      // }
       return;
     }
 
@@ -544,6 +533,25 @@ export default class GameScene extends Phaser.Scene {
 
         this.wheelContainer.getAt(1).getAt(1).getAt(targetNumber-1).setAlpha(1);
 
+        //highlight winning number
+        let winningNumberIndex = betKeys.indexOf(String(response.data.data.number));
+        this.betContainer.getAt(winningNumberIndex).getAt(1).setVisible(true);
+
+        if(response.data.data.color == "red")
+          this.betContainer.getAt(15).getAt(1).setVisible(true);
+        else
+          this.betContainer.getAt(14).getAt(1).setVisible(true);
+
+        if(response.data.data.oddEven == "odd")
+          this.betContainer.getAt(16).getAt(1).setVisible(true);
+        else
+          this.betContainer.getAt(13).getAt(1).setVisible(true);
+
+        if(response.data.data.numSize == "small")
+          this.betContainer.getAt(12).getAt(1).setVisible(true);
+        else
+          this.betContainer.getAt(17).getAt(1).setVisible(true);
+
         if (Number(response.data.data.amount) > 0)
         {
           this.sound.unlock();
@@ -567,25 +575,6 @@ export default class GameScene extends Phaser.Scene {
             });
           });
 
-          let winningNumberIndex = betKeys.indexOf(String(response.data.data.number));
-          this.betContainer.getAt(winningNumberIndex).getAt(1).setVisible(true);
-
-          if(response.data.data.color == "red")
-            this.betContainer.getAt(15).getAt(1).setVisible(true);
-          else
-            this.betContainer.getAt(14).getAt(1).setVisible(true);
-
-          if(response.data.data.oddEven == "odd")
-            this.betContainer.getAt(16).getAt(1).setVisible(true);
-          else
-            this.betContainer.getAt(13).getAt(1).setVisible(true);
-
-          if(response.data.data.numSize == "small")
-            this.betContainer.getAt(12).getAt(1).setVisible(true);
-          else
-            this.betContainer.getAt(17).getAt(1).setVisible(true);
-
-          
           let balance = this.balance;
           let balanceText = this.balanceText;
 
